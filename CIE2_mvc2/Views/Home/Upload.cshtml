@@ -44,3 +44,31 @@
         transform: translate(-50%, -50%);
     }
 </style>
+<script>
+       document.addEventListener("DOMContentLoaded", function () {
+        const uploadDialog = document.getElementById("uploadDialog");
+        const successMessage = document.getElementById("successMessage");
+        const uploadButton = document.getElementById("uploadButton");
+
+        // Show the upload dialog when clicking "Upload PDF"
+        function openUploadDialog() {
+            uploadDialog.style.display = "block";
+            successMessage.style.display = "none"; // Hide success message initially
+        }
+
+        // Function to simulate file upload
+        function uploadFile() {
+            // Simulate an upload process
+            setTimeout(() => {
+                successMessage.style.display = "block"; // Show success message
+                setTimeout(() => {
+                    uploadDialog.style.display = "none"; // Hide the upload box after success
+                }, 2000); // Delay of 2 seconds before closing
+            }, 1000); // Simulate a short processing time
+        }
+
+        // Attach event listener to the Upload button
+        uploadButton.addEventListener("click", uploadFile);
+    });
+
+</script>
