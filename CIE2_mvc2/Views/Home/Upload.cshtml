@@ -78,6 +78,40 @@
             .pdf-item a:hover {
                 text-decoration: underline;
             }
+.pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pdf-item {
+    background: #f9f9f9;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pdf-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.pdf-item a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.pdf-item a:hover {
+    text-decoration: underline;
+}
+
 </style>
 
 <!-- Upload PDF Button -->
@@ -95,16 +129,19 @@
     </div>
 </div>
 
-<!-- Display Uploaded PDFs in Grid -->
+<!-- Display Uploaded PDFs in Grid with PDF Icons -->
 <h3 class="mt-4">Uploaded PDFs</h3>
 <div class="pdf-grid">
     @foreach (var fileName in ViewBag.Files as List<string>)
     {
         <div class="pdf-item">
-            <a href="~/uploads/@fileName" target="_blank">@fileName</a>
+            <img src="~/images/pdf-icon.png" alt="PDF Icon" class="pdf-icon">
+            <a href="@Url.Action("PdfViewer", "Home", new { fileName = fileName })">@fileName</a>
+            @* <a href="~/uploads/@fileName" target="_blank">@fileName</a> *@
         </div>
     }
 </div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

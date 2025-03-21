@@ -68,4 +68,10 @@ public class HomeController : Controller
         ViewBag.Files = fileNames;
         return View();
     }
+    public IActionResult PdfViewer(string fileName)
+    {
+        ViewBag.FileName = fileName;
+        return View();
+    }
+
 }
