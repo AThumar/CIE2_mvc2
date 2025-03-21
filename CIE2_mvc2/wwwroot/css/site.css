@@ -28,3 +28,64 @@ body {
 .progress-bar {
     transition: width 0.3s ease-in-out;
 }
+
+/* Restrict the uploaded PDF list inside the container */
+.uploaded-files-container {
+    max-height: 300px; /* Adjust height */
+    overflow-y: auto; /* Enable scrolling */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative; /* Keep it inside its section */
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure the upload dialog stays on top */
+.upload-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1050; /* Higher than other elements */
+}
+
+/* Set z-index for uploaded PDFs to avoid floating issue */
+.uploaded-files-container a {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    position: relative;
+    z-index: 1; /* Lower than the upload dialog */
+}
+
+
+
+/* Buttons */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: black;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: lightgray;
+    color: black;
+}

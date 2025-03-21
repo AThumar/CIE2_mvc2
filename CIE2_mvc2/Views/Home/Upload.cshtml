@@ -1,22 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Upload PDF";
 }
+<!-- Modal Dialog Box (Initially Hidden) -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h2>Upload PDF File</h2>
+        <form id="uploadForm">
+            <input type="file" id="fileInput" accept=".pdf">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>
 
-<!-- Upload PDF Form -->
-<div class="upload-dialog">
-    <h2 class="text-center">Upload PDF File</h2>
+<!-- Button to Open Upload Dialog -->
+<button id="openDialogButton" class="btn btn-primary">+ Upload PDF</button>
 
-    @if (TempData["Message"] != null)
-    {
-        <div class="alert alert-info">@TempData["Message"]</div>
-    }
-
-    <form method="post" enctype="multipart/form-data" asp-action="Upload">
-        <label class="form-label">Select a file to Upload</label>
-        <input type="file" name="file" class="form-control mb-3">
-
-        <button type="submit" class="btn btn-dark w-100">Upload</button>
-    </form>
 </div>
 
 <!-- Display Uploaded PDFs -->
@@ -32,43 +31,66 @@
 
 <!-- Custom CSS -->
 <style>
-    .upload-dialog {
-        width: 400px;
-        padding: 20px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensures it appears above other elements */
+}
+
+/* Centered Modal Box */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 350px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button (X) */
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+}
+
+/* Fix for Upload Button */
+#uploadForm {
+    margin-top: 10px;
+}
 </style>
 <script>
-       document.addEventListener("DOMContentLoaded", function () {
-        const uploadDialog = document.getElementById("uploadDialog");
-        const successMessage = document.getElementById("successMessage");
-        const uploadButton = document.getElementById("uploadButton");
+    document.addEventListener("DOMContentLoaded", function () {
+        let modal = document.getElementById("uploadModal");
+        let openModalBtn = document.getElementById("openModalBtn");
+        let closeModal = document.getElementById("closeModal");
 
-        // Show the upload dialog when clicking "Upload PDF"
-        function openUploadDialog() {
-            uploadDialog.style.display = "block";
-            successMessage.style.display = "none"; // Hide success message initially
-        }
+        // Open modal when clicking the sidebar button
+        openModalBtn.addEventListener("click", function () {
+            modal.style.display = "flex"; // Show modal
+        });
 
-        // Function to simulate file upload
-        function uploadFile() {
-            // Simulate an upload process
-            setTimeout(() => {
-                successMessage.style.display = "block"; // Show success message
-                setTimeout(() => {
-                    uploadDialog.style.display = "none"; // Hide the upload box after success
-                }, 2000); // Delay of 2 seconds before closing
-            }, 1000); // Simulate a short processing time
-        }
+        // Close modal when clicking the close button (×)
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none"; // Hide modal
+        });
 
-        // Attach event listener to the Upload button
-        uploadButton.addEventListener("click", uploadFile);
+        // Close modal when clicking outside of the modal
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
     });
-
 </script>
