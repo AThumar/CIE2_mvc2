@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -15,35 +15,42 @@ public class HomeController : Controller
         _webHostEnvironment = webHostEnvironment;
     }
 
-    // Handle File Upload
     [HttpPost]
     public async Task<IActionResult> Upload(IFormFile file)
     {
-        if (file == null || file.Length == 0)
+        try
         {
-            TempData["Message"] = "No file selected!";
-            return RedirectToAction("Upload");
+            if (file == null || file.Length == 0)
+            {
+                Console.WriteLine("❌ No file selected.");
+                return BadRequest("No file selected!");
+            }
+
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+                Console.WriteLine($"📁 Created folder: {uploadsFolder}");
+            }
+
+            string filePath = Path.Combine(uploadsFolder, file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            Console.WriteLine($"✅ File uploaded: {filePath}");
+            return Ok("File uploaded successfully!");
         }
-
-        // Set upload folder path
-        string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-
-        // Create the folder if it doesn't exist
-        if (!Directory.Exists(uploadsFolder))
+        catch (Exception ex)
         {
-            Directory.CreateDirectory(uploadsFolder);
+            Console.WriteLine($"❌ Upload failed: {ex.Message}");
+            return StatusCode(500, "Internal Server Error");
         }
-
-        // Save the file in wwwroot/uploads
-        string filePath = Path.Combine(uploadsFolder, file.FileName);
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
-
-        TempData["Message"] = "File uploaded successfully!";
-        return RedirectToAction("Upload");
     }
+
+
 
     // Display Uploaded Files
     public IActionResult Upload()

@@ -73,17 +73,19 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let modal = document.getElementById("uploadModal");
-        let openModalBtn = document.getElementById("openModalBtn");
+        let openModalBtn = document.getElementById("openDialogButton"); // Fix the ID
         let closeModal = document.getElementById("closeModal");
+        let uploadForm = document.getElementById("uploadForm");
+        let fileInput = document.getElementById("fileInput");
 
-        // Open modal when clicking the sidebar button
+        // Open modal when clicking the "Upload PDF" button
         openModalBtn.addEventListener("click", function () {
-            modal.style.display = "flex"; // Show modal
+            modal.style.display = "flex";
         });
 
         // Close modal when clicking the close button (×)
         closeModal.addEventListener("click", function () {
-            modal.style.display = "none"; // Hide modal
+            modal.style.display = "none";
         });
 
         // Close modal when clicking outside of the modal
@@ -91,6 +93,39 @@
             if (event.target === modal) {
                 modal.style.display = "none";
             }
+        });
+
+        // Handle File Upload via AJAX
+        uploadForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            let file = fileInput.files[0];
+            if (!file) {
+                alert("Please select a file!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", file);
+
+            fetch("/Home/Upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Upload failed!");
+                }
+                return response.text();
+            })
+            .then(data => {
+                alert(data); // Show success message
+                modal.style.display = "none"; // Close the modal
+                location.reload(); // Refresh to show new file
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+            });
         });
     });
 </script>
