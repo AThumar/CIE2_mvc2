@@ -1,103 +1,268 @@
-﻿@{
+﻿@* @{ *@
+@*     ViewData["Title"] = "Upload PDF"; *@
+@* } *@
+@* <!-- Modal Dialog Box (Initially Hidden) --> *@
+@* <div id="uploadModal" class="modal"> *@
+@*     <div class="modal-content"> *@
+@*         <span id="closeModal" class="close">&times;</span> *@
+@*         <h2>Upload PDF File</h2> *@
+@*         <form id="uploadForm"> *@
+@*             <input type="file" id="fileInput" accept=".pdf"> *@
+@*             <button type="submit">Upload</button> *@
+@*         </form> *@
+@*     </div> *@
+@* </div> *@
+
+@* <!-- Button to Open Upload Dialog --> *@
+@* <button id="openDialogButton" class="btn btn-primary">+ Upload PDF</button> *@
+
+@* </div> *@
+
+@* <!-- Display Uploaded PDFs --> *@
+@* <h3 class="mt-4">Uploaded PDFs</h3> *@
+@* <ul class="list-group"> *@
+@*     @foreach (var fileName in ViewBag.Files as List<string>) *@
+@*     { *@
+@*         <li class="list-group-item"> *@
+@*             <a href="~/uploads/@fileName" target="_blank">@fileName</a> *@
+@*         </li> *@
+@*     } *@
+@* </ul> *@
+
+@* <!-- Custom CSS --> *@
+@* <style> *@
+@*     .modal { *@
+@*         display: none; *@
+@*         position: fixed; *@
+@*         top: 0; *@
+@*         left: 0; *@
+@*         width: 100%; *@
+@*         height: 100%; *@
+@*         background: rgba(0, 0, 0, 0.4); *@
+@*         display: flex; *@
+@*         align-items: center; *@
+@*         justify-content: center; *@
+@*         z-index: 1000; *@
+@*     } *@
+@* /* Centered Modal Box */ *@
+@*     .modal-content { *@
+@*         background: white; *@
+@*         padding: 20px; *@
+@*         border-radius: 8px; *@
+@*         width: 400px; *@
+@*         text-align: center; *@
+@*         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); *@
+@*     } *@
+@* /* Close Button (X) */ *@
+@*  .close { *@
+@*         cursor: pointer; *@
+@*         position: absolute; *@
+@*         top: 10px; *@
+@*         right: 15px; *@
+@*         font-size: 20px; *@
+@*     } *@
+
+@* /* Fix for Upload Button */ *@
+@* #uploadForm { *@
+@*     margin-top: 10px; *@
+@* } *@
+@* </style> *@
+@* <script> *@
+@*     document.addEventListener("DOMContentLoaded", function () { *@
+@*         let modal = document.getElementById("uploadModal"); *@
+@*         let openModalBtn = document.getElementById("openDialogButton"); // Fix the ID *@
+@*         let closeModal = document.getElementById("closeModal"); *@
+@*         let uploadForm = document.getElementById("uploadForm"); *@
+@*         let fileInput = document.getElementById("fileInput"); *@
+
+@*         // Open modal when clicking the "Upload PDF" button *@
+@*         openModalBtn.addEventListener("click", function () { *@
+@*             modal.style.display = "flex"; *@
+@*         }); *@
+
+@*         // Close modal when clicking the close button (×) *@
+@*         closeModal.addEventListener("click", function () { *@
+@*             modal.style.display = "none"; *@
+@*         }); *@
+
+@*         // Close modal when clicking outside of the modal *@
+@*         window.addEventListener("click", function (event) { *@
+@*             if (event.target === modal) { *@
+@*                 modal.style.display = "none"; *@
+@*             } *@
+@*         }); *@
+
+@*         // Handle File Upload via AJAX *@
+@*         uploadForm.addEventListener("submit", function (event) { *@
+@*             event.preventDefault(); // Prevent form submission *@
+
+@*             let file = fileInput.files[0]; *@
+@*             if (!file) { *@
+@*                 alert("Please select a file!"); *@
+@*                 return; *@
+@*             } *@
+
+@*             let formData = new FormData(); *@
+@*             formData.append("file", file); *@
+
+@*             fetch("/Home/Upload", { *@
+@*                 method: "POST", *@
+@*                 body: formData *@
+@*             }) *@
+@*             .then(response => { *@
+@*                 if (!response.ok) { *@
+@*                     throw new Error("Upload failed!"); *@
+@*                 } *@
+@*                 return response.text(); *@
+@*             }) *@
+@*             .then(data => { *@
+@*                 alert(data); // Show success message *@
+@*                 modal.style.display = "none"; // Close the modal *@
+@*                 location.reload(); // Refresh to show new file *@
+@*             }) *@
+@*             .catch(error => { *@
+@*                 alert("Error: " + error.message); *@
+@*             }); *@
+@*         }); *@
+@*     }); *@
+@* </script> *@
+
+
+@{
     ViewData["Title"] = "Upload PDF";
 }
-<!-- Modal Dialog Box (Initially Hidden) -->
+<style>
+    /* Center the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Close Button */
+    .close {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+    }
+
+    /* Upload Button */
+    .upload-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+
+    /* Uploaded PDFs Layout */
+    .pdf-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .pdf-item {
+        background: #f9f9f9;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .pdf-item a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+            .pdf-item a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<!-- Upload PDF Button -->
+<button id="openModalBtn" class="upload-btn">+ Upload PDF</button>
+
+<!-- Modal Dialog for Uploading -->
 <div id="uploadModal" class="modal">
     <div class="modal-content">
         <span id="closeModal" class="close">&times;</span>
         <h2>Upload PDF File</h2>
         <form id="uploadForm">
             <input type="file" id="fileInput" accept=".pdf">
-            <button type="submit">Upload</button>
+            <button type="submit" class="upload-btn">Upload</button>
         </form>
     </div>
 </div>
 
-<!-- Button to Open Upload Dialog -->
-<button id="openDialogButton" class="btn btn-primary">+ Upload PDF</button>
-
-</div>
-
-<!-- Display Uploaded PDFs -->
+<!-- Display Uploaded PDFs in Grid -->
 <h3 class="mt-4">Uploaded PDFs</h3>
-<ul class="list-group">
+<div class="pdf-grid">
     @foreach (var fileName in ViewBag.Files as List<string>)
     {
-        <li class="list-group-item">
+        <div class="pdf-item">
             <a href="~/uploads/@fileName" target="_blank">@fileName</a>
-        </li>
+        </div>
     }
-</ul>
+</div>
 
-<!-- Custom CSS -->
-<style>
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000; /* Ensures it appears above other elements */
-}
-
-/* Centered Modal Box */
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 350px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Close Button (X) */
-.close {
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-}
-
-/* Fix for Upload Button */
-#uploadForm {
-    margin-top: 10px;
-}
-</style>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let modal = document.getElementById("uploadModal");
-        let openModalBtn = document.getElementById("openDialogButton"); // Fix the ID
+        let openModalBtn = document.getElementById("openModalBtn");
         let closeModal = document.getElementById("closeModal");
-        let uploadForm = document.getElementById("uploadForm");
-        let fileInput = document.getElementById("fileInput");
 
-        // Open modal when clicking the "Upload PDF" button
+        // Open modal
         openModalBtn.addEventListener("click", function () {
             modal.style.display = "flex";
         });
 
-        // Close modal when clicking the close button (×)
+        // Close modal
         closeModal.addEventListener("click", function () {
             modal.style.display = "none";
         });
 
-        // Close modal when clicking outside of the modal
+        // Close modal on outside click
         window.addEventListener("click", function (event) {
             if (event.target === modal) {
                 modal.style.display = "none";
             }
         });
 
-        // Handle File Upload via AJAX
+        // AJAX File Upload
+        let uploadForm = document.getElementById("uploadForm");
+        let fileInput = document.getElementById("fileInput");
+
         uploadForm.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault();
 
             let file = fileInput.files[0];
             if (!file) {
@@ -112,19 +277,13 @@
                 method: "POST",
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Upload failed!");
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
-                alert(data); // Show success message
-                modal.style.display = "none"; // Close the modal
-                location.reload(); // Refresh to show new file
+                alert(data);
+                location.reload(); // Refresh page
             })
             .catch(error => {
-                alert("Error: " + error.message);
+                alert("Upload failed: " + error.message);
             });
         });
     });
