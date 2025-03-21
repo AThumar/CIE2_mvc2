@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Upload PDF";
+}
+
+<!-- Upload PDF Form -->
+<div class="upload-dialog">
+    <h2 class="text-center">Upload PDF File</h2>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
+
+    <form method="post" enctype="multipart/form-data" asp-action="Upload">
+        <label class="form-label">Select a file to Upload</label>
+        <input type="file" name="file" class="form-control mb-3">
+
+        <button type="submit" class="btn btn-dark w-100">Upload</button>
+    </form>
+</div>
+
+<!-- Display Uploaded PDFs -->
+<h3 class="mt-4">Uploaded PDFs</h3>
+<ul class="list-group">
+    @foreach (var fileName in ViewBag.Files as List<string>)
+    {
+        <li class="list-group-item">
+            <a href="~/uploads/@fileName" target="_blank">@fileName</a>
+        </li>
+    }
+</ul>
+
+<!-- Custom CSS -->
+<style>
+    .upload-dialog {
+        width: 400px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>

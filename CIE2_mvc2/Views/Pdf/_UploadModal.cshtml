@@ -1,0 +1,25 @@
+﻿<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Pdf File</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-action="UploadFile" asp-controller="Pdf" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <label>Select a file to Upload</label>
+                    <input type="file" name="file" class="form-control" required />
+
+                    <label class="mt-2">File Name *</label>
+                    <input type="text" name="fileName" class="form-control" required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

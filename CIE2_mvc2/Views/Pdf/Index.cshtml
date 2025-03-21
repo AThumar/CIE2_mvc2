@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "ScanX - Upload PDF";
+}
+
+<div class="container mt-5">
+@*     <h2 class="mb-4">ScanX</h2> *@
+
+@*     <button class="btn btn-dark" id="btnUploadPdf">+ Upload PDF</button> *@
+@*     <button class="btn btn-secondary mt-3">🚀 Workshop</button> *@
+@*     <button class="btn btn-outline-dark mt-3">Upgrade</button> *@
+
+@*     <div class="progress mt-4"> *@
+@*         <div class="progress-bar bg-dark" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div> *@
+@*     </div> *@
+@*     <p class="mt-2">4 out of 5 PDFs Uploaded</p> *@
+@* </div> *@
+
+<!-- Upload Modal -->
+<div id="uploadModalContainer"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#btnUploadPdf").click(function () {
+                $.get("/Pdf/Upload", function (data) {
+                    $("#uploadModalContainer").html(data);
+                    $("#uploadModal").modal("show");
+                });
+            });
+        });
+    </script>
+}
