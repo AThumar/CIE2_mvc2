@@ -74,7 +74,9 @@
             <button onclick="alignText('left')">⬅</button>
             <button onclick="alignText('center')">⬆</button>
             <button onclick="alignText('right')">➡</button>
-            <button>🔷</button> <!-- Diamond button -->
+            @* <button id="aiAnswerBtn">🔷</button> *@
+            <button id="diamondButton">🔷</button>
+
         </div>
 
         <!-- Chat Text Area -->
@@ -100,4 +102,41 @@
     function alignText(direction) {
         document.execCommand("justify" + direction, false, null);
     }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const diamondButton = document.getElementById("diamondButton");
+
+        if (!diamondButton) {
+            console.error("❌ Diamond button not found!");
+            return;
+        }
+
+        diamondButton.addEventListener("click", function () {
+            const selectedText = window.getSelection().toString().trim();
+
+            if (!selectedText) {
+                alert("⚠️ Please select text from the PDF first!");
+                return;
+            }
+
+            console.log("📩 Sending Selected Text:", selectedText);
+
+            fetch('/Home/CheckQuestion', { // New API route
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: selectedText, fileName: "@fileName" }) // Pass file name
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isValid) {
+                    document.getElementById("chatInput").innerHTML +=
+                        `<p><b>AI:</b> ${data.answer}</p>`; // Show AI response
+                } else {
+                    alert("❌ This question is not in the document!");
+                }
+            })
+            .catch(error => console.error("❌ Error sending text:", error));
+        });
+    });
 </script>
