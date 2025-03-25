@@ -1,102 +1,232 @@
-﻿@{
-    ViewData["Title"] = "Plans";
+﻿@* @{ *@
+@*     ViewData["Title"] = "Plans"; *@
+@* } *@
+
+@* <style> *@
+@*     body { *@
+@*         font-family: 'Inter', sans-serif; *@
+@*         background-color: #F8F8F8; *@
+@*     } *@
+
+@*     .container { *@
+@*         max-width: 900px; *@
+@*         margin: auto; *@
+@*         padding-top: 30px; *@
+@*     } *@
+
+@*     .plans-container { *@
+@*         display: flex; *@
+@*         justify-content: center; *@
+@*         gap: 30px; /* Increased spacing */ *@
+@*         flex-wrap: wrap; *@
+@*     } *@
+
+@*     .plan-card { *@
+@*         background: white; *@
+@*         border-radius: 10px; *@
+@*         padding: 30px; /* Adds internal spacing */ *@
+@*         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); *@
+@*         text-align: center; *@
+@*         width: 320px; /* Fixed width for consistency */ *@
+@*         min-height: 470px; /* Ensures equal height */ *@
+@*         display: flex; *@
+@*         flex-direction: column; *@
+@*         justify-content: space-between; *@
+@*     } *@
+
+@*     .plan-title { *@
+@*         font-size: 20px; *@
+@*         font-weight: 600; *@
+@*     } *@
+
+@*     .price { *@
+@*         font-size: 26px; *@
+@*         font-weight: 700; *@
+@*         margin-bottom: 10px; *@
+@*     } *@
+
+@*     .features { *@
+@*         list-style: none; *@
+@*         padding: 0; *@
+@*         margin: 15px 0; *@
+@*         text-align: left; *@
+@*     } *@
+
+@*         .features li { *@
+@*             margin: 8px 0; *@
+@*             font-size: 16px; *@
+@*             display: flex; *@
+@*             align-items: center; *@
+@*             gap: 8px; *@
+@*         } *@
+
+@*     .btn-black { *@
+@*         background-color: black; *@
+@*         color: white; *@
+@*         padding: 12px; *@
+@*         width: 100%; *@
+@*         border-radius: 6px; *@
+@*         font-weight: bold; *@
+@*         border: none; *@
+@*     } *@
+
+@*         .btn-black:hover { *@
+@*             background-color: #333; *@
+@*         } *@
+
+@*     .btn-blue { *@
+@*         background-color: #D8EDF8; *@
+@*         color: black; *@
+@*         padding: 12px; *@
+@*         width: 100%; *@
+@*         border-radius: 6px; *@
+@*         font-weight: bold; *@
+@*         border: none; *@
+@*     } *@
+
+@*         .btn-blue:hover { *@
+@*             background-color: #b4d4e7; *@
+@*         } *@
+
+
+@* </style> *@
+
+@* <div class="container"> *@
+@*     <h2 class="text-start">Plans</h2> *@
+@*     <p class="text-start text-muted">Update your plan to upload multiple PDFs & take notes.</p> *@
+@*     <div class="row justify-content-center"> *@
+@*         <!-- Free Plan --> *@
+@*         <div class="col-md-5 mx-lg-4 my-3 plan-card"> *@
+@*             <h4 class="plan-title">Free</h4> *@
+@*             <p class="price">$0 <span class="text-muted" style="font-size:14px;">/ per month</span></p> *@
+@*             <ul class="features"> *@
+@*                 <li>✅ 5 PDF Upload</li> *@
+@*                 <li>✅ Unlimited Notes Taking</li> *@
+@*                 <li>✅ Email Support</li> *@
+@*                 <li>✅ Help Center Access</li> *@
+@*             </ul> *@
+@*             <button class="btn-black">Get Started</button> *@
+@*         </div> *@
+
+@*         <!-- Unlimited Plan --> *@
+@*         <div class="col-md-5 mx-lg-4 my-3 plan-card"> *@
+@*             <h4 class="plan-title">Unlimited</h4> *@
+@*             <p class="price">$257 <span class="text-muted" style="font-size:14px;">/ one-time</span></p> *@
+@*             <ul class="features"> *@
+@*                 <li>✅ Unlimited PDF Upload</li> *@
+@*                 <li>✅ Unlimited Notes Taking</li> *@
+@*                 <li>✅ Email Support</li> *@
+@*                 <li>✅ Help Center Access</li> *@
+@*                 <li>✅ Priority Security</li> *@
+@*             </ul> *@
+@*             <button class="btn-black">Get Started</button> *@
+@*             <button class="btn-blue mt-2">Google Pay</button> *@
+@*         </div> *@
+@*     </div> *@
+
+
+@*    </div> *@
+
+@* <!-- Bootstrap for Styling --> *@
+
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> *@
+
+ { *
+     ViewData["Title"] = "Plans"; 
+ } 
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8F8F8;
 }
 
-<style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #F8F8F8;
-    }
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding-top: 30px;
+}
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding-top: 30px;
-    }
+.row {
+    justify-content: center;
+    gap: 30px; /* Adds space between cards */
+    align-items: stretch; /* Ensures equal height */
+}
 
-    .plans-container {
-        display: flex;
-        justify-content: center;
-        gap: 30px; /* Increased spacing */
-        flex-wrap: wrap;
-    }
+.plan-card {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 320px;
+    min-height: 480px; /* Increased for better balance */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-    .plan-card {
-        background: white;
-        border-radius: 10px;
-        padding: 25px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        width: 320px; /* Fixed width for consistency */
-        min-height: 470px; /* Ensures equal height */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+.plan-title {
+    font-size: 20px;
+    font-weight: 600;
+}
 
-    .plan-title {
-        font-size: 20px;
-        font-weight: 600;
-    }
+.price {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 
-    .price {
-        font-size: 26px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    text-align: left;
+}
 
-    .features {
-        list-style: none;
-        padding: 0;
-        margin: 15px 0;
-        text-align: left;
-    }
+.features li {
+    margin: 10px 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* More space between icon & text */
+}
 
-        .features li {
-            margin: 8px 0;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.btn-black {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+}
 
-    .btn-black {
-        background-color: black;
-        color: white;
-        padding: 12px;
-        width: 100%;
-        border-radius: 6px;
-        font-weight: bold;
-        border: none;
-    }
+.btn-black:hover {
+    background-color: #333;
+}
 
-        .btn-black:hover {
-            background-color: #333;
-        }
+.btn-blue {
+    background-color: #D8EDF8;
+    color: black;
+    padding: 12px;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: bold;
+    border: none;
+}
 
-    .btn-blue {
-        background-color: #D8EDF8;
-        color: black;
-        padding: 12px;
-        width: 100%;
-        border-radius: 6px;
-        font-weight: bold;
-        border: none;
-    }
-
-        .btn-blue:hover {
-            background-color: #b4d4e7;
-        }
-
+.btn-blue:hover {
+    background-color: #b4d4e7;
+}
 </style>
 
 <div class="container">
     <h2 class="text-start">Plans</h2>
     <p class="text-start text-muted">Update your plan to upload multiple PDFs & take notes.</p>
 
-    <div class="plans-container">
+    <div class="row">
         <!-- Free Plan -->
-        <div class="plan-card">
+        <div class="col-md-5 col-lg-4 plan-card">
             <h4 class="plan-title">Free</h4>
             <p class="price">$0 <span class="text-muted" style="font-size:14px;">/ per month</span></p>
             <ul class="features">
@@ -109,7 +239,7 @@
         </div>
 
         <!-- Unlimited Plan -->
-        <div class="plan-card">
+        <div class="col-md-5 col-lg-4 plan-card">
             <h4 class="plan-title">Unlimited</h4>
             <p class="price">$257 <span class="text-muted" style="font-size:14px;">/ one-time</span></p>
             <ul class="features">
